@@ -4,6 +4,27 @@ Lightweight, login-protected forum for Tor. Fast to deploy, minimal dependencies
 
 ## full encryption - First login will become admin then you are able to add user and admin.
 ### upcoming feature - delete user and edit username and password
+
+# quick start Linux/unix
+```bash
+mkdir forum
+cd forum
+wget https://git.astraleite.org/AE/Encrypted-onion-forum/raw/branch/main/docker-compose.yaml
+docker compose up -d
+```
+## powershell 
+```bash
+mkdir forum
+cd forum
+wget https://git.astraleite.org/AE/Encrypted-onion-forum/raw/branch/main/docker-compose.yaml -OutFile docker-compose.yml
+docker compose up -d
+```
+1. After ~60 seconds, print the onion address:
+
+```bash
+docker compose exec tor sh -lc 'cat /var/lib/tor/hidden_service/hostname'
+```
+
 ## Features
 
 - Zero JavaScript by default, server‑rendered UI
@@ -14,25 +35,6 @@ Lightweight, login-protected forum for Tor. Fast to deploy, minimal dependencies
 - Login system (required by default) with admin‑managed users
 	- Usernames are encrypted at rest; passwords are hashed (never stored in plaintext)
 
-## Requirements
-
-- Docker Desktop (Windows/macOS) or Docker Engine + Compose (Linux)
-
-## Quick start (2 commands)
-
-1. Start services (web + tor):
-
-```bash
-docker compose up --build -d
-```
-
-1. After ~60 seconds, print the onion address:
-
-```bash
-docker compose exec tor sh -lc 'cat /var/lib/tor/hidden_service/hostname'
-```
-
-That’s it. The forum is available over your .onion address (port 80).
 
 Next, visit your onion URL and go to /login to create the first admin account. Once logged in as admin, use /admin/users to add more users.
 
