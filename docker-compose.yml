@@ -15,7 +15,6 @@ services:
     restart: unless-stopped
   tor:
     image: git.astralelite.org/ae/encrypted-onion-forum:tor
-      context: ./tor
     container_name: onion-forum-tor
     depends_on:
       - web
