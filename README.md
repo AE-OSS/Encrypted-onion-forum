@@ -11,7 +11,6 @@ mkdir forum
 cd forum
 wget https://git.astralelite.org/AE/Encrypted-onion-forum/raw/branch/main/docker-compose.yml
 docker compose up -d
-sudo chown -R 100:100 ./tor_data # permission fix
 ```
 ## powershell 
 ```bash
