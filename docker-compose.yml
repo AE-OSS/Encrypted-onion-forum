@@ -9,7 +9,7 @@ services:
       - FORUM_DB_PATH=/data/forum.db
       - PORT=8080
     volumes:
-      - forum_data:/data
+      - ./forum_data:/data
       # Uncomment the next line for live-reload style dev (requires restarting container to pick up python deps changes)
       # - ./:/app
     restart: unless-stopped
@@ -19,7 +19,7 @@ services:
     depends_on:
       - web
     volumes:
-      - tor_data:/var/lib/tor
+      - ./tor_data:/var/lib/tor
     environment:
       - TOR_HIDE=1
     restart: unless-stopped
