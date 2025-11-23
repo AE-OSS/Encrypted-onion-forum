@@ -12,7 +12,7 @@ cd forum
 wget https://git.astralelite.org/AE/Encrypted-onion-forum/raw/branch/main/docker-compose.yml
 docker compose up -d
 ```
-## powershell 
+# powershell - Windows
 ```bash
 mkdir forum
 cd forum
