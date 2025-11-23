@@ -10,9 +10,8 @@ services:
       - PORT=8080
     volumes:
       - ./forum_data:/data
-      # Uncomment the next line for live-reload style dev (requires restarting container to pick up python deps changes)
-      # - ./:/app
     restart: unless-stopped
+
   tor:
     image: git.astralelite.org/ae/encrypted-onion-forum:tor
     container_name: onion-forum-tor
@@ -22,8 +21,20 @@ services:
       - ./tor_data:/var/lib/tor
     environment:
       - TOR_HIDE=1
-    restart: unless-stopped
 
-volumes:
-  forum_data:
-  tor_data:
+    # --- THE FINAL FIX ---
+    # 1. Start as Root (Administrator)
+    user: root
+    # 2. Fix the folder permissions
+    # 3. Run Tor directly as Root. 
+    #    (Tor will read its config and switch ITSELF to 'debian-tor' safely)
+    entrypoint: 
+      - /bin/sh
+      - -c
+      - |
+        chown -R 100:100 /var/lib/tor
+        echo "Permissions fixed. Starting Tor..."
+        exec tor -f /etc/tor/torrc
+    # ---------------------
+
+    restart: unless-stopped
