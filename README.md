@@ -12,6 +12,10 @@ cd forum
 wget https://git.astralelite.org/AE/Encrypted-onion-forum/raw/branch/main/docker-compose.yml
 docker compose up -d
 ```
+### If you are running as non root fix permission of persistent data
+```bash
+sudo chown -R 100:100 ./tor_data
+```
 ## powershell 
 ```bash
 mkdir forum
