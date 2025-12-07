@@ -1,3 +1,5 @@
+**Powered by [astralelite.org](https://astralelite.org)**  
+
 # Onion Forum
 
 Lightweight, login-protected forum for Tor. Fast to deploy, minimal dependencies, and ready as a v3 onion service.
