@@ -1,4 +1,9 @@
-**Powered by [astralelite.org](https://astralelite.org)**  
+<p align="center">
+  <a href="https://astralelite.org" target="_blank">
+    <img src="https://img.shields.io/badge/Powered%20by-AstralElite.org-6C63FF?style=for-the-badge&logo=astro&logoColor=white" alt="Powered by AstralElite.org">
+  </a>
+</p>
+
 
 # Onion Forum
 
