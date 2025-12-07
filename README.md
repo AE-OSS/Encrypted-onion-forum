@@ -16,15 +16,16 @@ Lightweight, login-protected forum for Tor. Fast to deploy, minimal dependencies
 ```bash
 mkdir forum
 cd forum
-wget https://git.astralelite.org/AE/Encrypted-onion-forum/raw/branch/main/docker-compose.yml
+wget https://raw.githubusercontent.com/AE-OSS/Encrypted-onion-forum/main/docker-compose.yml
 docker compose up -d
 ```
 # powershell - Windows
 ```bash
 mkdir forum
 cd forum
-wget https://git.astralelite.org/AE/Encrypted-onion-forum/raw/branch/main/docker-compose.yml -OutFile docker-compose.yml
+wget https://raw.githubusercontent.com/AE-OSS/Encrypted-onion-forum/main/docker-compose.yml -OutFile docker-compose.yml
 docker compose up -d
+
 ```
 1. After ~60 seconds, print the onion address:
 
