@@ -1,55 +1,89 @@
-<p align="center">
-  <a href="https://astralelite.org" target="_blank">
-    <img src="https://img.shields.io/badge/Powered%20by-AstralElite.org-6C63FF?style=for-the-badge&logo=astro&logoColor=white" alt="Powered by AstralElite.org">
-  </a>
-</p>
+# 🧅 Encrypted Onion Forum
 
+> **Lightweight, login-protected forum for Tor.**  
+> Fast to deploy, minimal dependencies, and ready as a v3 onion service out of the box.
 
-# Onion Forum
+---
 
-Lightweight, login-protected forum for Tor. Fast to deploy, minimal dependencies, and ready as a v3 onion service.
+## ✨ Features
 
-## full encryption - First login will become admin then you are able to add user and admin.
-### upcoming feature - delete user and edit username and password
+*   **🔒 Full Encryption**: Usernames are encrypted at rest; passwords are hashed. Never stored in plaintext.
+*   **⚡ Zero JavaScript**: Default UI is server-rendered, ensuring maximum security and privacy.
+*   **🛡️ Secure & Safe**: Strict CSP, CSRF protection, and sanitized Markdown rendering.
+*   **📦 Tiny Footprint**: SQLite storage (single file) with minimal resource usage.
+*   **🚀 Instant Deploy**: One-step Docker setup with a built-in Tor hidden service.
+*   **👥 Admin Managed**: Login required by default. Admins manage user access.
 
-# quick start Linux/unix
+---
+
+## 🚀 Quick Start
+
+Get your forum up and running in seconds.
+
+### 🐧 Linux / Unix / macOS
+
 ```bash
 mkdir forum
 cd forum
-wget https://raw.githubusercontent.com/AE-OSS/Encrypted-onion-forum/main/docker-compose.yml
+wget https://code.xeayu.com/Xeayu/Encrypted-onion-forum/raw/branch/main/docker-compose.yml
 docker compose up -d
 ```
-# powershell - Windows
-```bash
+
+### 🪟 Windows (PowerShell)
+
+```powershell
 mkdir forum
 cd forum
-wget https://raw.githubusercontent.com/AE-OSS/Encrypted-onion-forum/main/docker-compose.yml -OutFile docker-compose.yml
+wget https://code.xeayu.com/Xeayu/Encrypted-onion-forum/raw/branch/main/docker-compose.yml -OutFile docker-compose.yml
 docker compose up -d
-
 ```
-1. After ~60 seconds, print the onion address:
+
+### 🔗 Get Your Onion Address
+
+Wait about **60 seconds** for Tor to bootstrap, then retrieve your hidden service address:
 
 ```bash
 docker compose exec tor sh -lc 'cat /var/lib/tor/hidden_service/hostname'
 ```
 
-## Features
+*Visit this address in Tor Browser to access your forum.*
 
-- Zero JavaScript by default, server‑rendered UI
-- Posts + comments, pagination, categories
-- Safe Markdown rendering (sanitized), CSRF protection, strict CSP
-- SQLite storage (single file), tiny resource usage
-- One‑step Docker with a built‑in Tor hidden service
-- Login system (required by default) with admin‑managed users
-	- Usernames are encrypted at rest; passwords are hashed (never stored in plaintext)
+---
 
+## 🛠️ Configuration
 
-Next, visit your onion URL and go to /login to create the first admin account. Once logged in as admin, use /admin/users to add more users.
+You can configure the forum by setting environment variables in your `docker-compose.yml` or a `.env` file.
 
-## Stop / reset
+| Variable | Description | Default |
+| :--- | :--- | :--- |
+| `REQUIRE_LOGIN` | Set to `0` to disable the login requirement. | `1` (Enabled) |
+| `ADMIN_USER` | Pre-create an admin username on first boot. | *(None)* |
+| `ADMIN_PASS` | Pre-create an admin password on first boot. | *(None)* |
+| `SECRET_KEY` | Override the auto-generated 64-hex secret key. | *(Auto-generated)* |
+| `FORUM_DB_PATH` | Path to the SQLite database file. | `/data/forum.db` |
+| `PORT` | Internal web server port. | `8080` |
 
-- Stop: `docker compose down`
-- Reset data (removes all posts and regenerates the onion address):
+---
+
+## 👮 Administration
+
+1.  **First Login**: The first user to visit `/login` and create an account effectively becomes the **Admin**.
+2.  **Manage Users**: Once logged in as an admin, navigate to `/admin/users` to add new users or grant admin privileges.
+3.  **Upcoming Features**: User deletion and profile editing (username/password) are coming soon.
+
+---
+
+## 💾 Data & Persistence
+
+Your data is persistent and secure.
+
+*   **Forum Data**: The SQLite database and the app's secret key are stored in the `forum_data` volume (mounted to `/data`).
+*   **Tor Keys**: The hidden service private key and hostname are stored in the `tor_data` volume.
+*   **Secret Key**: A `SECRET_KEY` is auto-generated in `/data/secret_key` on first run if not provided via environment variables.
+
+### How to Reset
+
+To completely **wipe** the forum and start fresh (including a new onion address):
 
 ```bash
 docker compose down
@@ -57,53 +91,38 @@ docker volume rm onion_forum_data
 docker volume rm onion_tor_data
 ```
 
-## Data & persistence
+---
 
-- Forum data (SQLite DB) and the app’s secret key live in the `forum_data` volume at `/data` inside the container.
-- Tor hidden service keys and `hostname` live in the `tor_data` volume.
-- A persistent SECRET_KEY is auto‑generated on first run and stored at `/data/secret_key` (no setup needed). You can still override with an environment variable if you prefer.
+## 🩺 Health Check
 
-
-## Health check
-
-The app exposes `GET /healthz` for a quick check. Example:
+The application exposes a health check endpoint:
 
 ```bash
 curl http://localhost:8080/healthz
 ```
 
-## Configuration (optional)
+---
 
-Environment variables you can set (Compose reads from your shell or a local `.env` file):
+## 🔧 Troubleshooting
 
-- `REQUIRE_LOGIN`: set to `0` to disable login requirement (default: `1`).
-- `ADMIN_USER` and `ADMIN_PASS`: optionally pre-create an admin user on first boot.
-- `SECRET_KEY`: override the auto‑generated key with your own 64‑hex string.
-- `FORUM_DB_PATH`: path to the SQLite DB file (default: `/data/forum.db`).
-- `PORT`: internal web port (default: 8080).
-
-## Login & Admin
-
-- Login is required by default. First visit to `/login` will bootstrap the very first admin account.
-- After that, sign in and visit `/admin/users` to add more users and optionally grant admin status.
-- The header shows an “Admin” link only for admins.
-
-## Troubleshooting
-
-- Tor not ready yet: watch logs until “Bootstrapped 100%”.
-
+**Tor not ready?**  
+Check the logs to see if Tor has finished bootstrapping:
 ```bash
 docker compose logs -f tor
 ```
+*Wait for "Bootstrapped 100%"*
 
-- Need the onion name again:
-
+**Forgot Onion Address?**  
+Run:
 ```bash
 docker compose exec tor sh -lc 'cat /var/lib/tor/hidden_service/hostname'
 ```
 
-- Port in use: change the host port mapping in `docker-compose.yml` (e.g., `8090:8080`).
+**Port Conflict?**  
+If port `8080` is in use, modify the mapping in `docker-compose.yml` (e.g., `8090:8080`).
 
-## License
+---
 
-See `LICENSE` in this repository.
+## 📜 License
+
+See the [LICENSE](LICENSE) file in this repository.
